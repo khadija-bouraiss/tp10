@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Employé</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #FFF6F6; font-family: 'Segoe UI', sans-serif; }
+        .navbar { background: linear-gradient(135deg, #2C687B, #8CC7C4); padding: 15px 0; }
+        .navbar-brand { color: white !important; font-weight: 800; font-size: 22px; }
+        .btn-logout {
+            background-color: #DB1A1A; color: white;
+            border: none; border-radius: 10px;
+            padding: 8px 20px; font-weight: 700;
+            text-decoration: none; transition: 0.3s;
+        }
+        .btn-logout:hover { background-color: #b01414; color: white; }
+        .page-header {
+            background: linear-gradient(135deg, #8CC7C4, #2C687B);
+            color: white; padding: 35px 30px;
+            border-radius: 20px; margin: 30px 0;
+            text-align: center;
+        }
+        .page-header h1 { font-size: 32px; font-weight: 800; }
+        .page-header p { opacity: 0.9; margin-top: 8px; }
+        .access-badge {
+            background: rgba(255,255,255,0.2);
+            color: white; border-radius: 30px;
+            padding: 8px 20px; font-weight: 700;
+            display: inline-block; margin-bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        .task-card {
+            background: white; border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(44,104,123,0.12);
+            padding: 25px; margin-top: 25px;
+        }
+        .task-card h5 { color: #2C687B; font-weight: 700; margin-bottom: 15px; }
+        .task-item {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .task-item:last-child { border-bottom: none; }
+        .task-status-done {
+            background: #e8f5f4; color: #2C687B;
+            border-radius: 8px; padding: 4px 12px;
+            font-size: 13px; font-weight: 700;
+        }
+        .task-status-pending {
+            background: #fde8e8; color: #DB1A1A;
+            border-radius: 8px; padding: 4px 12px;
+            font-size: 13px; font-weight: 700;
+        }
+        .info-card {
+            background: white; border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(44,104,123,0.12);
+            padding: 25px; margin-top: 25px;
+        }
+        .info-card h5 { color: #2C687B; font-weight: 700; margin-bottom: 15px; }
+        .info-item {
+            display: flex; align-items: center;
+            gap: 10px; padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0; color: #444;
+        }
+        .info-item:last-child { border-bottom: none; }
+        .btn-retour {
+            background: #8CC7C4; color: #2C687B;
+            border: none; border-radius: 12px;
+            padding: 12px 30px; font-weight: 700;
+            text-decoration: none; transition: 0.3s;
+            display: inline-block; margin-top: 20px;
+        }
+        .btn-retour:hover { background: #2C687B; color: white; }
+        footer { background: #2C687B; color: #FFF6F6; text-align: center; padding: 20px; margin-top: 60px; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/accueil">🏢 Espace Pro</a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+                <span style="color:white; font-weight:600;">
+                    👷 <span sec:authentication="name">Employé</span>
+                </span>
+            <a href="/deconnexion" class="btn-logout">🚪 Déconnexion</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <div class="access-badge">👷 Espace Employé</div>
+        <h1>👷 Mon Espace de Travail</h1>
+        <p>Accessible aux rôles EMPLOYE et MANAGER</p>
+    </div>
+
+    <!-- TACHES -->
+    <div class="task-card">
+        <h5>📋 Mes tâches du jour</h5>
+        <div class="task-item">
+            <span>📊 Rapport hebdomadaire</span>
+            <span class="task-status-done">✅ Terminé</span>
+        </div>
+        <div class="task-item">
+            <span>📧 Répondre aux emails clients</span>
+            <span class="task-status-pending">⏳ En cours</span>
+        </div>
+        <div class="task-item">
+            <span>📅 Réunion d'équipe 14h00</span>
+            <span class="task-status-pending">⏳ En attente</span>
+        </div>
+        <div class="task-item">
+            <span>📁 Mise à jour des dossiers</span>
+            <span class="task-status-done">✅ Terminé</span>
+        </div>
+    </div>
+
+    <!-- INFOS SESSION -->
+    <div class="info-card">
+        <h5>📋 Informations de session</h5>
+        <div class="info-item">
+            👤 Connecté en tant que : <strong sec:authentication="name">Employé</strong>
+        </div>
+        <div class="info-item">
+            🔑 Rôle : <strong>EMPLOYE</strong>
+        </div>
+        <div class="info-item">
+            🔐 Niveau d'accès : <strong style="color:#8CC7C4;">Standard</strong>
+        </div>
+        <div class="info-item">
+            🚫 Accès Manager : <strong style="color:#DB1A1A;">❌ Restreint</strong>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="/accueil" class="btn-retour">← Retour à l'accueil</a>
+    </div>
+</div>
+
+<footer><p>🏢 Espace Pro — Sécurisé avec Spring Security</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

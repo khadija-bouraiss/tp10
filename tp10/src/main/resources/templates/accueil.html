@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil — Espace Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #FFF6F6; font-family: 'Segoe UI', sans-serif; }
+        .navbar {
+            background: linear-gradient(135deg, #2C687B, #8CC7C4);
+            padding: 15px 0;
+        }
+        .navbar-brand { color: white !important; font-weight: 800; font-size: 22px; }
+        .nav-link { color: rgba(255,255,255,0.9) !important; font-weight: 600; }
+        .nav-link:hover { color: white !important; }
+        .btn-logout {
+            background-color: #DB1A1A;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 20px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-logout:hover { background-color: #b01414; color: white; }
+        .hero {
+            background: linear-gradient(135deg, #2C687B, #8CC7C4);
+            color: white;
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        .hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .hero p { font-size: 18px; opacity: 0.9; }
+        .user-badge {
+            background: white;
+            color: #2C687B;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+        .card-espace {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-height: 220px;
+        }
+        .card-espace:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(44,104,123,0.2);
+        }
+        .card-manager {
+            background: linear-gradient(135deg, #2C687B, #8CC7C4);
+        }
+        .card-employe {
+            background: linear-gradient(135deg, #8CC7C4, #2C687B);
+        }
+        .card-espace .card-body {
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .card-espace h4 { font-weight: 700; font-size: 22px; margin: 15px 0 10px; }
+        .card-espace p { opacity: 0.85; font-size: 14px; margin-bottom: 20px; }
+        .btn-espace {
+            background: #FFF6F6;
+            color: #2C687B;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 25px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-espace:hover { background: white; color: #DB1A1A; }
+        footer {
+            background: #2C687B;
+            color: #FFF6F6;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/accueil">🏢 Espace Pro</a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+                <span style="color:white; font-weight:600;">
+                    👤 <span sec:authentication="name">Utilisateur</span>
+                </span>
+            <a href="/deconnexion" class="btn-logout">🚪 Déconnexion</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="hero">
+        <h1>🏢 Bienvenue dans l'Espace Professionnel</h1>
+        <p>Connexion réussie ! Choisissez votre espace de travail.</p>
+        <div class="user-badge">
+            👤 Connecté en tant que : <span sec:authentication="name">Utilisateur</span>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- CARTE MANAGER -->
+        <div class="col-md-6" sec:authorize="hasRole('MANAGER')">
+            <div class="card card-espace card-manager h-100">
+                <div class="card-body">
+                    <div style="font-size:50px;">🏆</div>
+                    <h4>Espace Manager</h4>
+                    <p>Accédez au tableau de bord de gestion et aux statistiques</p>
+                    <a href="/manager/tableau-de-bord" class="btn-espace">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARTE EMPLOYE -->
+        <div class="col-md-6" sec:authorize="hasAnyRole('EMPLOYE', 'MANAGER')">
+            <div class="card card-espace card-employe h-100">
+                <div class="card-body">
+                    <div style="font-size:50px;">👷</div>
+                    <h4>Espace Employé</h4>
+                    <p>Accédez à votre espace de travail et vos tâches</p>
+                    <a href="/employe/espace" class="btn-espace">Accéder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>🏢 Espace Pro — Sécurisé avec Spring Security</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
